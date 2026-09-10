@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b1f1a" />
+  <meta name="description" content="SportNOW - trova persone con cui fare sport vicino a te." />
+  <title>SportNOW</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="SportNOW home">
+        <span class="brand-mark">S</span>
+        <span>Sport<span>NOW</span></span>
+      </a>
+      <button class="avatar" aria-label="Profilo">GM</button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">TROVA PERSONE. FAI SPORT.</p>
+          <h1>Che sport vuoi fare <span>oggi?</span></h1>
+          <p class="hero-copy">Scopri attività vicino a te o crea la tua. Scegli, partecipa, gioca.</p>
+        </div>
+        <button class="primary-btn" id="openCreate">+ Crea attività</button>
+      </section>
+
+      <section class="search-card" aria-label="Ricerca attività">
+        <div class="search-row">
+          <span class="search-icon">⌕</span>
+          <input id="searchInput" type="search" placeholder="Cerca sport o luogo..." />
+        </div>
+        <div class="chips" id="sportFilters">
+          <button class="chip active" data-sport="Tutti">Tutti</button>
+          <button class="chip" data-sport="Pallavolo">🏐 Pallavolo</button>
+          <button class="chip" data-sport="Calcio">⚽ Calcio</button>
+          <button class="chip" data-sport="Tennis">🎾 Tennis</button>
+          <button class="chip" data-sport="Corsa">🏃 Corsa</button>
+          <button class="chip" data-sport="Bici">🚴 Bici</button>
+        </div>
+      </section>
+
+      <section class="section-head">
+        <div>
+          <p class="eyebrow">VICINO A TE</p>
+          <h2>Attività disponibili</h2>
+        </div>
+        <button class="text-btn" id="toggleMap">Mappa</button>
+      </section>
+
+      <section id="mapPanel" class="map-panel hidden">
+        <div class="map-dot dot-one"></div>
+        <div class="map-dot dot-two"></div>
+        <div class="map-dot dot-three"></div>
+        <div class="map-label">Val di Cembra</div>
+      </section>
+
+      <section class="activity-grid" id="activityGrid">
+        <article class="activity-card" data-sport="Pallavolo" data-search="pallavolo cembra faver palestra">
+          <div class="card-top volleyball">
+            <span class="sport-badge">🏐 Pallavolo</span>
+            <span class="distance">2,4 km</span>
+          </div>
+          <div class="card-body">
+            <div class="date-box"><strong>12</strong><span>SET</span></div>
+            <div class="card-main">
+              <h3>Partita mista 6 vs 6</h3>
+              <p>📍 Palestra di Faver · 20:30</p>
+              <div class="people">
+                <span class="faces">👩🏻‍🦱🧔🏻👨🏼‍🦰</span>
+                <span><strong>8/12</strong> partecipanti</span>
+              </div>
+            </div>
+          </div>
+          <button class="join-btn">Partecipa</button>
+        </article>
+
+        <article class="activity-card" data-sport="Corsa" data-search="corsa lago serraia pine corsa">
+          <div class="card-top running">
+            <span class="sport-badge">🏃 Corsa</span>
+            <span class="distance">7,1 km</span>
+          </div>
+          <div class="card-body">
+            <div class="date-box"><strong>13</strong><span>SET</span></div>
+            <div class="card-main">
+              <h3>Giro tranquillo al lago</h3>
+              <p>📍 Lago della Serraia · 18:15</p>
+              <div class="people">
+                <span class="faces">👨🏽‍🦱👩🏼</span>
+                <span><strong>3/8</strong> partecipanti</span>
+              </div>
+            </div>
+          </div>
+          <button class="join-btn">Partecipa</button>
+        </article>
+
+        <article class="activity-card" data-sport="Tennis" data-search="tennis cavalese campo doppio">
+          <div class="card-top tennis">
+            <span class="sport-badge">🎾 Tennis</span>
+            <span class="distance">15 km</span>
+          </div>
+          <div class="card-body">
+            <div class="date-box"><strong>14</strong><span>SET</span></div>
+            <div class="card-main">
+              <h3>Doppio, livello intermedio</h3>
+              <p>📍 Campi di Cavalese · 19:00</p>
+              <div class="people">
+                <span class="faces">👩🏽👨🏻</span>
+                <span><strong>2/4</strong> partecipanti</span>
+              </div>
+            </div>
+          </div>
+          <button class="join-btn">Partecipa</button>
+        </article>
+      </section>
+
+      <p id="emptyState" class="empty-state hidden">Nessuna attività trovata. Prova un altro sport o crea tu la prima attività.</p>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navigazione principale">
+      <button class="nav-item active"><span>⌂</span>Home</button>
+      <button class="nav-item"><span>⌕</span>Scopri</button>
+      <button class="fab" id="fabCreate">+</button>
+      <button class="nav-item"><span>♡</span>Salvati</button>
+      <button class="nav-item"><span>◉</span>Profilo</button>
+    </nav>
+  </div>
+
+  <dialog id="createDialog">
+    <form method="dialog" id="createForm">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">NUOVA ATTIVITÀ</p>
+          <h2>Organizza una partita</h2>
+        </div>
+        <button class="close-btn" value="cancel" aria-label="Chiudi">×</button>
+      </div>
+
+      <label>Sport
+        <select id="newSport">
+          <option>Pallavolo</option>
+          <option>Calcio</option>
+          <option>Tennis</option>
+          <option>Corsa</option>
+          <option>Bici</option>
+        </select>
+      </label>
+
+      <label>Titolo
+        <input id="newTitle" required placeholder="Es. Partita amichevole" />
+      </label>
+
+      <div class="form-two">
+        <label>Data<input id="newDate" type="date" required /></label>
+        <label>Ora<input id="newTime" type="time" required /></label>
+      </div>
+
+      <label>Luogo
+        <input id="newPlace" required placeholder="Es. Palestra di Faver" />
+      </label>
+
+      <label>Numero massimo partecipanti
+        <input id="newMax" type="number" min="2" max="50" value="12" />
+      </label>
+
+      <button class="primary-btn full" value="default">Pubblica attività</button>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

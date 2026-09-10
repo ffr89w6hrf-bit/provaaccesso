@@ -1,0 +1,9 @@
+{
+  "name": "SportNOW",
+  "short_name": "SportNOW",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f7f5",
+  "theme_color": "#0b1f1a",
+  "description": "Trova persone con cui fare sport vicino a te."
+}
